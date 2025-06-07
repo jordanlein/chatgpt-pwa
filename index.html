@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#22272e">
+    <title>LLM Chat PWA</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="LLM Chat">
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+</head>
+<body>
+    <div class="app-layout">
+        <!-- Sidebar for Chat History -->
+        <aside class="sidebar">
+            <header class="sidebar-header">
+                <button id="new-chat-button" class="new-chat-btn">⊕ New Chat</button>
+            </header>
+            <nav id="chat-history-list" class="chat-history-list">
+                <!-- Chat history items will be populated here by JavaScript -->
+            </nav>
+        </aside>
+
+        <!-- Main Chat Container -->
+        <div class="app-container">
+            <header class="app-header">
+                <button id="menu-toggle-button" class="menu-toggle-btn">☰</button>
+                <h1>LLM Chat</h1>
+                <div class="controls">
+                    <select id="model-selector">
+                        <option value="o4-mini">O4 Mini</option>
+                        <option value="gpt-4o" selected>GPT-4o</option>
+                        <option value="gpt-4o-mini">GPT-4o Mini</option>
+                    </select>
+                    <button id="settings-button" aria-label="Settings">⚙️</button>
+                </div>
+            </header>
+
+            <main class="chat-area">
+                <div id="chat-messages" class="chat-messages">
+                    <!-- Messages will appear here -->
+                </div>
+            </main>
+
+            <div id="attachment-preview-area" class="attachment-preview-area" style="display: none;">
+                <img id="image-preview" src="#" alt="Image preview" style="display: none;" />
+                <span id="pdf-name-preview" style="display: none;"></span>
+                <button id="remove-attachment-button" style="display: none;">×</button>
+            </div>
+
+            <footer class="chat-input-area">
+                <button id="attach-file-button" aria-label="Attach file">📎</button>
+                <input type="file" id="file-input" accept="image/*,application/pdf" style="display: none;">
+                <textarea id="message-input" placeholder="Type your message..." rows="1"></textarea>
+                <button id="send-button" aria-label="Send Message">➤</button>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Settings Modal (no changes) -->
+    <div id="settings-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">×</span>
+            <h2>Settings</h2>
+            <label for="api-key-input">OpenAI API Key:</label>
+            <input type="password" id="api-key-input" placeholder="sk-...">
+            <button id="save-api-key-button">Save Key</button>
+            <p class="api-key-status"></p>
+        </div>
+    </div>
+
+    <!-- Dexie.js (for IndexedDB) -->
+    <script src="https://unpkg.com/dexie@3/dist/dexie.js"></script>
+    
+    <!-- PDF.js Library (already present) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script>
+        if (typeof pdfjsLib !== 'undefined') {
+            pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+        }
+    </script>
+    
+    <script src="app.js"></script>
+</body>
+</html>
